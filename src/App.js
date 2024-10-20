@@ -5,7 +5,7 @@ import Login from './components/User/Login';
 import Register from './components/User/Register';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { loadUser } from './actions/userAction';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import UpdateProfile from './components/User/UpdateProfile';
 import UpdatePassword from './components/User/UpdatePassword';
@@ -36,17 +36,20 @@ import UpdateUser from './components/Admin/UpdateUser';
 import ReviewsTable from './components/Admin/ReviewsTable';
 import Wishlist from './components/Wishlist/Wishlist';
 import NotFound from './components/NotFound';
+import axios from 'axios';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 
 function App() {
 
   const dispatch = useDispatch();
   const { pathname } = useLocation();
-  // const [stripeApiKey, setStripeApiKey] = useState("");
+  const [stripeApiKey, setStripeApiKey] = useState(null);
 
-  // async function getStripeApiKey() {
-  //   const { data } = await axios.get('/api/v1/stripeapikey');
-  //   setStripeApiKey(data.stripeApiKey);
-  // }
+  async function getStripeApiKey() {
+    const { data } = await axios.get('/api/v1/stripeapikey');
+    setStripeApiKey(data.stripeApiKey);
+  }
 
   useEffect(() => {
     WebFont.load({
@@ -58,7 +61,7 @@ function App() {
 
   useEffect(() => {
     dispatch(loadUser());
-    // getStripeApiKey();
+    getStripeApiKey();
   }, [dispatch]);
 
   // always scroll to top on route/path change
@@ -77,7 +80,7 @@ function App() {
     if (e.ctrlKey && e.shiftKey && e.keyCode === 73) e.preventDefault();
     if (e.ctrlKey && e.shiftKey && e.keyCode === 74) e.preventDefault();
   });
-  
+
   return (
     <>
       <Header />
@@ -107,11 +110,13 @@ function App() {
 
         <Route path="/process/payment" element={
           <ProtectedRoute>
-            {/* // stripeApiKey && ( */}
-            {/* // <Elements stripe={loadStripe(stripeApiKey)}> */}
-            <Payment />
-            {/* // </Elements> */}
-            {/* ) */}
+            {
+              stripeApiKey && (
+                <Elements stripe={loadStripe(stripeApiKey)}>
+                  <Payment />
+                </Elements>
+              )
+            }
           </ProtectedRoute>
         } ></Route>
 
