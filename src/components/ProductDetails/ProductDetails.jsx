@@ -123,13 +123,13 @@ const ProductDetails = () => {
 
     useEffect(() => {
         dispatch(getSimilarProducts(product?.category));
-    }, [dispatch, product, product.category]);
+    }, [dispatch, product, product?.category]);
 
     return (
         <>
             {loading ? <Loader /> : (
                 <>
-                    <MetaData title={product.name} />
+                    <MetaData title={product?.name} />
                     <MinCategory />
                     <main className="mt-12 sm:mt-0">
 
@@ -142,8 +142,8 @@ const ProductDetails = () => {
                                 <div className="flex flex-col gap-3 m-3">
                                     <div className="w-full h-full pb-6 border relative">
                                         <Slider {...settings}>
-                                            {product.images && product.images.map((item, i) => (
-                                                <img draggable="false" className="w-full h-96 object-contain" src={item.url} alt={product.name} key={i} />
+                                            {product?.images && product?.images.map((item, i) => (
+                                                <img draggable="false" className="w-full h-96 object-contain" src={item.url} alt={product?.name} key={i} />
                                             ))}
                                         </Slider>
                                         <div className="absolute top-4 right-4 shadow-lg bg-white w-9 h-9 border flex items-center justify-center rounded-full">
@@ -153,15 +153,15 @@ const ProductDetails = () => {
 
                                     <div className="w-full flex gap-3">
                                         {/* <!-- add to cart btn --> */}
-                                        {product.stock > 0 && (
+                                        {product?.stock > 0 && (
                                             <button onClick={itemInCart ? goToCart : addToCartHandler} className="p-4 w-1/2 flex items-center justify-center gap-2 text-white bg-primary-yellow rounded-sm shadow hover:shadow-lg">
                                                 <ShoppingCartIcon />
                                                 {itemInCart ? "GO TO CART" : "ADD TO CART"}
                                             </button>
                                         )}
-                                        <button onClick={buyNow} disabled={product.stock < 1 ? true : false} className={product.stock < 1 ? "p-4 w-full flex items-center justify-center gap-2 text-white bg-red-600 cursor-not-allowed rounded-sm shadow hover:shadow-lg" : "p-4 w-1/2 flex items-center justify-center gap-2 text-white bg-primary-orange rounded-sm shadow hover:shadow-lg"}>
+                                        <button onClick={buyNow} disabled={product?.stock < 1 ? true : false} className={product?.stock < 1 ? "p-4 w-full flex items-center justify-center gap-2 text-white bg-red-600 cursor-not-allowed rounded-sm shadow hover:shadow-lg" : "p-4 w-1/2 flex items-center justify-center gap-2 text-white bg-primary-orange rounded-sm shadow hover:shadow-lg"}>
                                             <FlashOnIcon />
-                                            {product.stock < 1 ? "OUT OF STOCK" : "BUY NOW"}
+                                            {product?.stock < 1 ? "OUT OF STOCK" : "BUY NOW"}
                                         </button>
                                         {/* <!-- add to cart btn --> */}
                                     </div>
@@ -177,23 +177,23 @@ const ProductDetails = () => {
                                 {/* <!-- whole product description --> */}
                                 <div className="flex flex-col gap-2 mb-4">
 
-                                    <h2 className="text-xl">{product.name}</h2>
+                                    <h2 className="text-xl">{product?.name}</h2>
                                     {/* <!-- rating badge --> */}
                                     <span className="text-sm text-gray-500 font-medium flex gap-2 items-center">
-                                        <span className="text-xs px-1.5 py-0.5 bg-primary-green rounded-sm text-white flex items-center gap-0.5">{product.ratings && product.ratings.toFixed(1)} <StarIcon sx={{ fontSize: "12px" }} /></span>
-                                        <span>{product.numOfReviews} Reviews</span>
+                                        <span className="text-xs px-1.5 py-0.5 bg-primary-green rounded-sm text-white flex items-center gap-0.5">{product?.ratings && product?.ratings.toFixed(1)} <StarIcon sx={{ fontSize: "12px" }} /></span>
+                                        <span>{product?.numOfReviews} Reviews</span>
                                     </span>
                                     {/* <!-- rating badge --> */}
 
                                     {/* <!-- price desc --> */}
                                     <span className="text-primary-green text-sm font-medium">Special Price</span>
                                     <div className="flex items-baseline gap-2 text-3xl font-medium">
-                                        <span className="text-gray-800">₹{product.price?.toLocaleString()}</span>
-                                        <span className="text-base text-gray-500 line-through">₹{product.cuttedPrice?.toLocaleString()}</span>
-                                        <span className="text-base text-primary-green">{getDiscount(product.price, product.cuttedPrice)}%&nbsp;off</span>
+                                        <span className="text-gray-800">₹{product?.price?.toLocaleString()}</span>
+                                        <span className="text-base text-gray-500 line-through">₹{product?.cuttedPrice?.toLocaleString()}</span>
+                                        <span className="text-base text-primary-green">{getDiscount(product?.price, product?.cuttedPrice)}%&nbsp;off</span>
                                     </div>
-                                    {product.stock <= 10 && product.stock > 0 && (
-                                        <span className="text-red-500 text-sm font-medium">Hurry, Only {product.stock} left!</span>
+                                    {product?.stock <= 10 && product?.stock > 0 && (
+                                        <span className="text-red-500 text-sm font-medium">Hurry, Only {product?.stock} left!</span>
                                     )}
                                     {/* <!-- price desc --> */}
 
@@ -209,8 +209,8 @@ const ProductDetails = () => {
 
                                     {/* <!-- warranty & brand --> */}
                                     <div className="flex gap-8 mt-2 items-center text-sm">
-                                        <img draggable="false" className="w-20 h-8 p-0.5 border object-contain" src={product.brand?.logo.url} alt={product.brand && product.brand.name} />
-                                        <span>{product.warranty} Year Warranty <Link className="font-medium text-primary-blue" to="/">Know More</Link></span>
+                                        <img draggable="false" className="w-20 h-8 p-0.5 border object-contain" src={product?.brand?.logo.url} alt={product?.brand && product?.brand.name} />
+                                        <span>{product?.warranty} Year Warranty <Link className="font-medium text-primary-blue" to="/">Know More</Link></span>
                                     </div>
                                     {/* <!-- warranty & brand --> */}
 
@@ -228,7 +228,7 @@ const ProductDetails = () => {
                                             <p className="text-gray-500 font-medium">Highlights</p>
 
                                             <ul className="list-disc flex flex-col gap-2 w-64">
-                                                {product.highlights?.map((highlight, i) => (
+                                                {product?.highlights?.map((highlight, i) => (
                                                     <li key={i}>
                                                         <p>{highlight}</p>
                                                     </li>
@@ -242,7 +242,7 @@ const ProductDetails = () => {
                                             <p className="text-gray-500 font-medium">Services</p>
                                             <ul className="flex flex-col gap-2">
                                                 <li>
-                                                    <p className="flex items-center gap-3"><span className="text-primary-blue"><VerifiedUserIcon sx={{ fontSize: "18px" }} /></span> {product.warranty} Year</p>
+                                                    <p className="flex items-center gap-3"><span className="text-primary-blue"><VerifiedUserIcon sx={{ fontSize: "18px" }} /></span> {product?.warranty} Year</p>
                                                 </li>
                                                 <li>
                                                     <p className="flex items-center gap-3"><span className="text-primary-blue"><CachedIcon sx={{ fontSize: "18px" }} /></span> 7 Days Replacement Policy</p>
@@ -259,7 +259,7 @@ const ProductDetails = () => {
                                     {/* <!-- seller details --> */}
                                     <div className="flex gap-16 mt-4 items-center text-sm font-medium">
                                         <p className="text-gray-500">Seller</p>
-                                        <Link className="font-medium text-primary-blue ml-3" to="/">{product.brand && product.brand.name}</Link>
+                                        <Link className="font-medium text-primary-blue ml-3" to="/">{product?.brand && product?.brand.name}</Link>
                                     </div>
                                     {/* <!-- seller details --> */}
 
@@ -272,7 +272,7 @@ const ProductDetails = () => {
                                     {/* <!-- description details --> */}
                                     <div className="flex flex-col sm:flex-row gap-1 sm:gap-14 mt-4 items-stretch text-sm">
                                         <p className="text-gray-500 font-medium">Description</p>
-                                        <span>{product.description}</span>
+                                        <span>{product?.description}</span>
                                     </div>
                                     {/* <!-- description details --> */}
 
@@ -280,7 +280,7 @@ const ProductDetails = () => {
                                     <div className="w-full mt-6 rounded-sm border flex flex-col">
                                         <h1 className="px-6 py-4 border-b text-2xl font-medium">Product Description</h1>
                                         <div className="p-6">
-                                            <p className="text-sm">{product.description}</p>
+                                            <p className="text-sm">{product?.description}</p>
                                         </div>
                                     </div>
                                     {/* <!-- border box --> */}
@@ -291,7 +291,7 @@ const ProductDetails = () => {
                                         <h1 className="px-6 py-3 text-lg">General</h1>
 
                                         {/* <!-- specs list --> */}
-                                        {product.specifications?.map((spec, i) => (
+                                        {product?.specifications?.map((spec, i) => (
                                             <div className="px-6 py-2 flex items-center text-sm" key={i}>
                                                 <p className="text-gray-500 w-3/12">{spec.title}</p>
                                                 <p className="flex-1">{spec.description}</p>
@@ -340,12 +340,12 @@ const ProductDetails = () => {
                                         </Dialog>
 
                                         <div className="flex items-center border-b">
-                                            <h1 className="px-6 py-3 text-3xl font-semibold">{product.ratings && product.ratings.toFixed(1)}<StarIcon /></h1>
-                                            <p className="text-lg text-gray-500">({product.numOfReviews}) Reviews</p>
+                                            <h1 className="px-6 py-3 text-3xl font-semibold">{product?.ratings && product?.ratings.toFixed(1)}<StarIcon /></h1>
+                                            <p className="text-lg text-gray-500">({product?.numOfReviews}) Reviews</p>
                                         </div>
 
                                         {viewAll ?
-                                            product.reviews?.map((rev, i) => (
+                                            product?.reviews?.map((rev, i) => (
                                                 <div className="flex flex-col gap-2 py-4 px-6 border-b" key={i}>
                                                     <Rating name="read-only" value={rev.rating} readOnly size="small" precision={0.5} />
                                                     <p>{rev.comment}</p>
@@ -353,7 +353,7 @@ const ProductDetails = () => {
                                                 </div>
                                             )).reverse()
                                             :
-                                            product.reviews?.slice(-3).map((rev, i) => (
+                                            product?.reviews?.slice(-3).map((rev, i) => (
                                                 <div className="flex flex-col gap-2 py-4 px-6 border-b" key={i}>
                                                     <Rating name="read-only" value={rev.rating} readOnly size="small" precision={0.5} />
                                                     <p>{rev.comment}</p>
@@ -361,7 +361,7 @@ const ProductDetails = () => {
                                                 </div>
                                             )).reverse()
                                         }
-                                        {product.reviews?.length > 3 &&
+                                        {product?.reviews?.length > 3 &&
                                             <button onClick={() => setViewAll(!viewAll)} className="w-1/3 m-2 rounded-sm shadow hover:shadow-lg py-2 bg-primary-blue text-white">{viewAll ? "View Less" : "View All"}</button>
                                         }
                                     </div>
