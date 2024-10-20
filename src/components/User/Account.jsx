@@ -10,7 +10,7 @@ const Account = () => {
 
     const navigate = useNavigate();
 
-    const { user, loading, isAuthenticated } = useSelector(state => state.user)
+    const { user, loading, isAuthenticated } = useSelector(state => state?.user)
 
     useEffect(() => {
         if (isAuthenticated === false) {
